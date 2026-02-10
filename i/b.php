@@ -29,7 +29,7 @@
     <tr>
         <td><?php echo $data['p_id'];?></td>
         <td><?php echo $data['p_name'];?></td>
-        <td><?php echo $data['p_ext'];?></td>
+        <td><img src="img/<?php echo $data['p_id'];?>.<?php $data['p_ext'];?>" width="120"</td>
         <td><?php echo $data['r_id'];?></td>
     </tr>
 <?php } ?>
