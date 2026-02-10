@@ -9,6 +9,7 @@
 
 <form method="post" action="">
     ชื่อจังหวัด <input type="text" name="rname" autofocus required><br>
+    รูปภาพ<input type="file" name="pimage"><br>
     ชื่อภาค
     <select name="rid">
 <?php
