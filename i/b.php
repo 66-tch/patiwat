@@ -5,34 +5,64 @@
 <title>ปฏิวัติ มาตวัน (มายมิ้น)</title>
 </head>
 
-<body>
-    <h1>งาน i</h1>
-    <h1>ปฏิวัติ มาตวัน (มายมิ้น)</h1>
+<body><h1> ปฏิวัติ มาตวัน (มายมิ้น) </h1>
+
+<form method="post" action="">
+    ชื่อจังหวัด <input type="text" name="rname" autofocus required><br>
+    ชื่อภาค
+    <select name="rid">
+<?php
+    include_once("connectdb.php");
+    $sql3 = "SELECT * FROM regions ORDER BY regions.r_id ASC";
+    $rs3 = mysqli_query($conn, $sql3);
+    while($data3 = mysqli_fetch_array($rs3)){
+?>
+    <option value="<?php echo $data3['r_id'];?>"><?php echo $data3['r_name'];?></option>
+<?php } ?>
+    </select><br><br>
+    <button type="submit" name="Submit">บันทึก</button>
+</form>
+<br>
+<br>
+
+<?php 
+if(isset($_POST['Submit'])){
+    include_once("connectdb.php");
+    $rname = $_POST['rname'];
+    $sql2 = "INSERT INTO provinces VALUES (NULL, '$rname')";
+    mysqli_query($conn, $sql2) or die ("insert ไม่ได้");
+}
+?>
+
 <table border="1">
     <tr>
-        <th>รหัสจังหวัด</th>
+        <th>รหัส</th>
         <th>ชื่อจังหวัด</th>
         <th>รูปภาพ</th>
-        <th>รหัสภาค</th>
+        <th>ภาค</th>
     </tr>
 
 <?php
     include_once("connectdb.php");
-    $sql = "SELECT * FROM `provinces` AS `p`
-    INNER JOIN `regions` AS r
-    ON p.r_id = r.r_id
-    ORDER BY `provinces`.`p_id` ASC";
+    $sql = "SELECT * FROM provinces AS p 
+    INNER JOIN regions AS r 
+    ON p.r_id = r.r_id 
+    ORDER BY p.p_name ASC";
     $rs = mysqli_query($conn, $sql);
-
+    
     while($data = mysqli_fetch_array($rs)){
 ?>
     <tr>
-        <td><?php echo $data['p_id'];?></td>
-        <td><?php echo $data['p_name'];?></td>
-        <td><img src="img/<?php echo $data['p_id'];?>.<?php echo $data['p_ext'];?>" width="120"></td>
-        <td><?php echo $data['r_id'];?></td>
+        <td><?php echo $data['p_id']; ?></td>
+        <td><?php echo $data['p_name']; ?></td>
+        <td><img src="img/<?php echo $data['p_id'];?><?php echo $data['p_ext'];?>" width="120"></td>
+        <td><?php echo $data['r_name']; ?></td>
     </tr>
-<?php } ?>
+<?php
+    } 
+?>
+
 </table>
+
 </body>
 </html>
