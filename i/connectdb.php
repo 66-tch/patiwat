@@ -1,7 +1,7 @@
 <?php
     $host = "localhost"; 
     $user = "root";
-    $pws = "";
+    $pws = "chinnapat";
     $db = "4108db";
     
     $conn = mysqli_connect($host, $user, $pws, $db) or die ("Error: " . mysqli_connect_error());
