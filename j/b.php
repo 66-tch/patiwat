@@ -7,8 +7,8 @@
 
 <body><h1> ปฏิวัติ มาตวัน (มายมิ้น) </h1>
 
-<form method="post" action="">
-    ชื่อจังหวัด <input type="text" name="rname" autofocus required><br>
+<form method="post" action="" enctype="multipart/form-data">
+    ชื่อจังหวัด <input type="text" name="pname" autofocus required><br>
     รูปภาพ<input type="file" name="pimage"><br>
     ชื่อภาค
     <select name="rid">
@@ -29,9 +29,15 @@
 <?php 
 if(isset($_POST['Submit'])){
     include_once("connectdb.php");
-    $rname = $_POST['rname'];
-    $sql2 = "INSERT INTO provinces VALUES (NULL, '$rname')";
+
+    $pname = $_POST['pname'];
+    $ext = pathinfo($_FILES['pimage']['name'], PATHINFO_EXTENSION);
+    $rid = $_POST['rid'];
+
+    $sql2 = "INSERT INTO provinces VALUES (NULL, '{$pname}', '{$ext}', '{$rid}')";
     mysqli_query($conn, $sql2) or die ("insert ไม่ได้");
+    $pic_id = mysqli_insert_id($conn);
+    move_uploaded_file($_FILES['pimage']['tmp_name'], "img/".$pic_id.".".$ext);
 }
 ?>
 
@@ -58,6 +64,8 @@ if(isset($_POST['Submit'])){
         <td><?php echo $data['p_name']; ?></td>
         <td><img src="img/<?php echo $data['p_id'];?><?php echo $data['p_ext'];?>" width="120"></td>
         <td><?php echo $data['r_name']; ?></td>
+        <td width="50" align="center"><a href="delete_provinces.php?id=<?php echo $data['p_id'];?>
+        "onClick="return confirm('ยื่นยันการลบ?');"><img src="img/delete.jpg" width="20"></a></td>
     </tr>
 <?php
     } 
